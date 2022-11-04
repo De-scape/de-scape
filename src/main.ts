@@ -1,4 +1,5 @@
 import { HttpExceptionFilter } from '@common/exceptions/http-exception.filter'
+import { IoAdapterFactory } from '@common/socket-adapter/io-adapter-factory'
 import { ValidationPipe } from '@nestjs/common'
 import { NestFactory } from '@nestjs/core'
 import { AppModule } from 'src/app.module'
@@ -20,6 +21,8 @@ async function bootstrap() {
   )
 
   app.useGlobalFilters(new HttpExceptionFilter())
+
+  app.useWebSocketAdapter(await IoAdapterFactory.createRedisAdapter(app))
 
   await app.listen(3000)
 }

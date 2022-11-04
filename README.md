@@ -4,12 +4,12 @@
 
 ```
 cd cmd
-source commitTemplate.sh
+source commit-template.sh
 cd ..
-// 현재 터미널 위치 기준으로 cmd/.commitTemplate.txt을 템플릿으로 사용
+// 현재 터미널 위치 기준으로 cmd/commit-template.txt을 템플릿으로 사용
 ```
 
-### .env
+### .env (.dev.env)
 
 ```
 REDIS_HOST=
