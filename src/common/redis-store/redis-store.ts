@@ -1,5 +1,5 @@
 import { ERROR } from '@common/constants/error'
-import { RedisConfig } from '@config/redis.config'
+import { RedisConfig, REDIS_CONFIG } from '@config/redis.config'
 import { HttpException, Inject, Injectable } from '@nestjs/common'
 import { ConfigType } from '@nestjs/config'
 import Redis, { RedisKey } from 'ioredis'
@@ -8,7 +8,7 @@ import Redis, { RedisKey } from 'ioredis'
 export class RedisStore {
   private store: Redis
 
-  constructor(@Inject(RedisConfig.KEY) private config: ConfigType<typeof RedisConfig>) {
+  constructor(@Inject(REDIS_CONFIG.KEY) private config: RedisConfig) {
     this.store = new Redis(config)
   }
 

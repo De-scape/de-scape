@@ -1,10 +1,11 @@
 import { LoggerMiddleware } from '@common/middlewares/logger.middleware'
 import { AppConfig } from '@config/app.config'
-import { RedisConfig } from '@config/redis.config'
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common'
 import { ConfigModule } from '@nestjs/config'
 import { AppController } from 'src/app.controller'
 import { AppService } from 'src/app.service'
+import { AuthModule } from './auth/auth.module'
+import { configs } from './config'
 
 @Module({
   imports: [
@@ -12,8 +13,9 @@ import { AppService } from 'src/app.service'
       isGlobal: true,
       envFilePath: `.${process.env.NODE_ENV}.env`,
       validate: AppConfig.validateConfig,
-      load: [RedisConfig],
+      load: [...configs],
     }),
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
