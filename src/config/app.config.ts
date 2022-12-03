@@ -12,10 +12,6 @@ class Environment {
 
   @IsString()
   @IsNotEmpty()
-  TEMP_REDIS_HOST: string
-
-  @IsString()
-  @IsNotEmpty()
   REDIS_HOST: string
 
   @IsNumber()
@@ -35,9 +31,9 @@ export class AppConfig {
   }
 
   public static getRedisConfig(): RedisOptions {
-    const { TEMP_REDIS_HOST, REDIS_PORT } = this.env
+    const { REDIS_HOST, REDIS_PORT } = this.env
     return {
-      host: TEMP_REDIS_HOST,
+      host: REDIS_HOST,
       port: REDIS_PORT,
     }
   }
