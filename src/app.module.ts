@@ -5,7 +5,7 @@ import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common'
 import { ConfigModule } from '@nestjs/config'
 import { AppController } from 'src/app.controller'
 import { AppService } from 'src/app.service'
-import { ChatModule } from 'src/chat/chat.module'
+import { RoomModule } from 'src/room/room.module'
 
 @Module({
   imports: [
@@ -15,7 +15,7 @@ import { ChatModule } from 'src/chat/chat.module'
       validate: AppConfig.validateConfig,
       load: [RedisConfig],
     }),
-    ChatModule,
+    RoomModule,
   ],
   controllers: [AppController],
   providers: [AppService],
