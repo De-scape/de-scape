@@ -10,7 +10,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
     const res = ctx.getResponse<Response>()
     const req = ctx.getRequest<Request>()
     const status = exception.getStatus()
-    // // HttpException 함수에 인자값으로 에러를 핸들링해줬을 경우 (String) || 그 외의 라이브러리에서 자동으로 에러처리를 해줬을 경우 (Object)
+    // HttpException 함수에 인자값으로 에러를 핸들링해줬을 경우 (String) || 그 외의 라이브러리에서 자동으로 에러처리를 해줬을 경우 (Object)
     const error = exception.getResponse() as string | { message: string | string[] }
     const message = typeof error === 'string' ? error : error.message
 
