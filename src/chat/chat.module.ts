@@ -6,6 +6,6 @@ import { ChatEntity } from 'src/entities/chat.entity'
 @Module({
   imports: [],
   controllers: [],
-  providers: [ChatGateway],
+  providers: [ChatGateway, ChatService],
 })
 export class ChatModule {}

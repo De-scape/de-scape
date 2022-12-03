@@ -2,13 +2,13 @@ import { plainToClass, plainToInstance } from 'class-transformer'
 import { IsIn, IsNotEmpty, IsNumber, IsString, validateSync } from 'class-validator'
 import { RedisOptions } from 'ioredis'
 
-const enviroments = ['dev', 'staging', 'prod'] as const
-type Environment = typeof enviroments[number]
+const NODE_ENVS = ['dev', 'staging', 'prod'] as const
+type NodeEnvType = typeof NODE_ENVS[number]
 
-class EnvironmentVariables {
-  @IsIn(enviroments)
+class Environment {
+  @IsIn(NODE_ENVS)
   @IsNotEmpty()
-  NODE_ENV: Environment
+  NODE_ENV: NodeEnvType
 
   @IsString()
   @IsNotEmpty()
@@ -28,8 +28,8 @@ class EnvironmentVariables {
 }
 
 export class AppConfig {
-  private static get env(): EnvironmentVariables {
-    return plainToClass(EnvironmentVariables, process.env, {
+  private static get env(): Environment {
+    return plainToClass(Environment, process.env, {
       enableImplicitConversion: true,
     })
   }
@@ -43,7 +43,7 @@ export class AppConfig {
   }
 
   public static validateConfig(env: Record<string, unknown>) {
-    const validatedConfig = plainToInstance(EnvironmentVariables, env, { enableImplicitConversion: true })
+    const validatedConfig = plainToClass(Environment, env, { enableImplicitConversion: true })
     const errors = validateSync(validatedConfig, { skipMissingProperties: false })
 
     if (errors.length > 0) {

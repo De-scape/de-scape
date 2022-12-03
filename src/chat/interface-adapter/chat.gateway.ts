@@ -21,17 +21,19 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect, On
   }
 
   handleConnection(client: Socket) {
-    ChatGateway.logger.debug(`${client.id}(${client.handshake.query['username']}) is connected`)
-    this.server.emit('connection', { message: 'hello world!' })
+    const { username } = client.handshake.query
+    ChatGateway.logger.debug(`${client.id}(${username}) is connected`)
+    this.server.emit('connection', { message: `${username} is connect.` })
   }
 
   handleDisconnect(client: any) {
     ChatGateway.logger.debug(`${client.id} is disconnected...`)
   }
 
-  @SubscribeMessage('echo')
+  @SubscribeMessage('chat')
   handleMessage(client: Socket, payload: unknown) {
     ChatGateway.logger.debug(client.id, payload)
+    client.emit('chat', { message: `chat, ${payload}` })
     // acknowledgment
     return payload
   }

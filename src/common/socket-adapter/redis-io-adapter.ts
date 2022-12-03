@@ -2,8 +2,7 @@ import { IoAdapter } from '@nestjs/platform-socket.io'
 import { ServerOptions } from 'socket.io'
 import { createAdapter } from '@socket.io/redis-adapter'
 import { createClient } from 'redis'
-import { INestApplicationContext, Logger } from '@nestjs/common'
-import { ConfigService } from '@nestjs/config'
+import { Logger } from '@nestjs/common'
 
 export class RedisIoAdapter extends IoAdapter {
   //   constructor(appOrHttpServer: INestApplicationContext, private readonly configService: ConfigService) {
@@ -17,7 +16,6 @@ export class RedisIoAdapter extends IoAdapter {
   private adapterConstructor: ReturnType<typeof createAdapter>
 
   async connectToRedis(): Promise<void> {
-    console.log('createIOServer Success')
     const pubClient = createClient({ url: this.REDIS_HOST })
     const subClient = pubClient.duplicate()
     await Promise.all([pubClient.connect(), subClient.connect()])
@@ -28,7 +26,6 @@ export class RedisIoAdapter extends IoAdapter {
 
   createIOServer(port: number, options?: ServerOptions): any {
     // gateway에서 실제로 socket.io 객체가 생성될 때 불리는 것으로 추정
-    console.log('createIOServer Succegffghss')
     const server = super.createIOServer(port, options)
     server.adapter(this.adapterConstructor)
 
