@@ -5,7 +5,10 @@ import { ConfigModule } from '@nestjs/config'
 import { AppController } from 'src/app.controller'
 import { AppService } from 'src/app.service'
 import { AuthModule } from './auth/auth.module'
+import { ChatModule } from './chat/chat.module'
 import { configs } from './config'
+import { PrismaModule } from './prisma/prisma.module'
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -16,6 +19,9 @@ import { configs } from './config'
       load: [...configs],
     }),
     AuthModule,
+    ChatModule,
+    PrismaModule,
+    UserModule,
   ],
   controllers: [AppController],
   providers: [AppService],
