@@ -1,4 +1,6 @@
-import { HttpExceptionFilter } from '@common/exceptions/http-exception.filter'
+import { HttpExceptionFilter } from '@common/exceptions/filters/http-exception.filter'
+import { validationPipeOption } from '@common/pipes/validation-pipe-option'
+import { IoAdapterFactory } from '@common/socket-adapter/io-adapter-factory'
 import { ValidationPipe } from '@nestjs/common'
 import { NestFactory } from '@nestjs/core'
 import { AppModule } from 'src/app.module'
@@ -9,17 +11,11 @@ async function bootstrap() {
     logger: winstonLogger,
   })
 
-  app.useGlobalPipes(
-    new ValidationPipe({
-      transform: true,
-      // 검증이 이루어지지 않은 프로퍼티 제거
-      whitelist: true,
-      // 검증이 이루어지지 않은 프로퍼티가 있을때 에러 표시
-      forbidNonWhitelisted: true,
-    }),
-  )
+  app.useGlobalPipes(new ValidationPipe(validationPipeOption))
 
   app.useGlobalFilters(new HttpExceptionFilter())
+
+  app.useWebSocketAdapter(await IoAdapterFactory.createRedisAdapter(app))
 
   await app.listen(3000)
 }

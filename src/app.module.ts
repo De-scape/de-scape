@@ -4,6 +4,7 @@ import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common'
 import { ConfigModule } from '@nestjs/config'
 import { AppController } from 'src/app.controller'
 import { AppService } from 'src/app.service'
+import { RoomModule } from 'src/room/room.module'
 import { AuthModule } from './auth/auth.module'
 import { configs } from './config'
 
@@ -15,6 +16,7 @@ import { configs } from './config'
       validate: AppConfig.validateConfig,
       load: [...configs],
     }),
+    RoomModule,
     AuthModule,
   ],
   controllers: [AppController],
