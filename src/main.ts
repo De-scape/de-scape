@@ -3,6 +3,7 @@ import { ValidationPipe } from '@nestjs/common'
 import { NestFactory } from '@nestjs/core'
 import { AppModule } from 'src/app.module'
 import { winstonLogger } from 'src/winston.util'
+import { PrismaService } from './prisma/prisma.service'
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
@@ -20,6 +21,10 @@ async function bootstrap() {
   )
 
   app.useGlobalFilters(new HttpExceptionFilter())
+
+  //prisma client set shutdown hook
+  const prismaService = app.get(PrismaService)
+  await prismaService.enableShutdownHooks(app)
 
   await app.listen(3000)
 }
